@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class ExternalSort {
     public static void main(String[] args) throws IOException {
-        ParseFile.spliting();
-        SortFile.mergeSorting();
+        int maxLen = ParseFile.spliting();
+        SortFile.mergeSorting(maxLen);
     }
 }

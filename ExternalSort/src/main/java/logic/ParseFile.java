@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class ParseFile {
     private static final String TEMP_FILE_NAME = "files\\temp\\temp";
     private static int nameCount = 0;
+    private static int maxLen = 0;
 
     // метод в котором происходит сортировка ArrayList и запись из него строк во временный файл
     private static void recordFromArray(ArrayList<String> buffer, int count) throws IOException {
@@ -18,6 +19,7 @@ public class ParseFile {
         for (String line: buffer) {
             i++;
             writer.write(line);
+            maxLen = Math.max(maxLen, line.length());
             if (i != count) writer.newLine();
         }
 
@@ -39,7 +41,7 @@ public class ParseFile {
     }
 
     // в этом методе считываем файл и разбиваем его на временные
-    public static void spliting () {
+    public static int spliting () {
         Scanner input = new Scanner(System.in);
         BufferedReader reader;
         boolean flag = true;
@@ -56,6 +58,7 @@ public class ParseFile {
                 System.out.println("Failed to create temporary file");
             }
         } while (flag);
+        return maxLen;
     }
 }
 

@@ -25,29 +25,29 @@ public class SortFile {
         }
     }
 
-    private static void merge(ArrayList<BufferedReader> readers, BufferedWriter writer) throws IOException {
+    private static void merge(ArrayList<BufferedReader> readers, BufferedWriter writer, int maxLen) throws IOException {
         for(int i = 0; i < nameCount; i++){
             BufferedReader current = readers.get(i);
             while (current.ready()) {
-                readers.get(i).mark(1000);
+                readers.get(i).mark(maxLen);
                 String min = readers.get(i).readLine();
                 int indexMin = i;
 
                 for (int j = i + 1; j < nameCount; j++)
                 {
                     BufferedReader temp = readers.get(j);
-                    temp.mark(1000);
+                    temp.mark(maxLen);
                     if (temp.ready()) {
                         String tempString = temp.readLine();
                         if (tempString.compareToIgnoreCase(min) == -1) {
                             min = tempString;
                             readers.get(indexMin).reset();
-                            readers.get(indexMin).mark(1000);
+                            readers.get(indexMin).mark(maxLen);
                             indexMin = j;
                         }
                         else {
                             temp.reset();
-                            temp.mark(1000);
+                            temp.mark(maxLen);
                         }
                     }
                 }
@@ -57,7 +57,7 @@ public class SortFile {
         }
     }
 
-    public static void mergeSorting() throws IOException {
+    public static void mergeSorting(int maxLen) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter("files\\external.txt"));
         ArrayList<BufferedReader> readers = new ArrayList<>();
 
@@ -65,7 +65,7 @@ public class SortFile {
             readers.add(new BufferedReader(new FileReader(TEMP_FILE_NAME + "\\temp" + i + ".txt")));
         }
 
-        merge(readers, writer);
+        merge(readers, writer, maxLen);
 
         readers.forEach(x -> {
             try {
